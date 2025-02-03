@@ -11,6 +11,8 @@ import logging
 import json
 import pathlib
 
+from aiohttp_basicauth import BasicAuthMiddleware
+
 from ytdl import DownloadQueueNotifier, DownloadQueue
 
 log = logging.getLogger('main')
@@ -94,7 +96,16 @@ class ObjectSerializer(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
 
 serializer = ObjectSerializer()
-app = web.Application()
+
+app = None
+
+if 'YT_DLP_UI_USER' in os.environ and 'YT_DLP_UI_PASS' in os.environ:
+    auth = BasicAuthMiddleware(username=os.environ.get('YT_DLP_UI_USER'), password=os.environ.get('YT_DLP_UI_PASS'))
+    app = web.Application(middlewares=[auth])
+    log.info('The http basic auth is enabled')
+else:
+    app = web.Application()
+
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 sio.attach(app, socketio_path=config.URL_PREFIX + 'socket.io')
 routes = web.RouteTableDef()

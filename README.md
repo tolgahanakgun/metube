@@ -1,4 +1,4 @@
-# MeTube
+# MeTube with HTTP Basic Auth
 
 > **_NOTE:_**  32-bit ARM builds have been retired (a full year after [other major players](https://www.linuxserver.io/blog/a-farewell-to-arm-hf)), as new Node versions don't support them, and continued security updates and dependencies require new Node versions. Please migrate to a 64-bit OS to continue receiving MeTube upgrades.
 
@@ -61,6 +61,9 @@ Certain values can be set via environment variables, using the `-e` parameter on
 * __YTDL_OPTIONS__: Additional options to pass to youtube-dl, in JSON format. [See available options here](https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py#L183). They roughly correspond to command-line options, though some do not have exact equivalents here, for example `--recode-video` has to be specified via `postprocessors`. Also note that dashes are replaced with underscores.
 * __YTDL_OPTIONS_FILE__: A path to a JSON file that will be loaded and used for populating `YTDL_OPTIONS` above. Please note that if both `YTDL_OPTIONS_FILE` and `YTDL_OPTIONS` are specified, the options in `YTDL_OPTIONS` take precedence.
 * __ROBOTS_TXT__: A path to a `robots.txt` file mounted in the container
+* __YT_DLP_UI_USER__: Username to use in HTTP Basic Authentication, this should be used with TLS Tunneling tool like `stunnel` for security reasons
+* __YT_DLP_UI_PASS__: Password to use in HTTP Basic Authentication, this should be used with TLS Tunneling tool like `stunnel` for security reasons
+
 
 The following example value for `YTDL_OPTIONS` embeds English subtitles and chapter markers (for videos that have them), and also changes the permissions on the downloaded video and sets the file modification timestamp to the date of when it was downloaded:
 

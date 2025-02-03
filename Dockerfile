@@ -18,7 +18,7 @@ RUN sed -i 's/\r$//g' docker-entrypoint.sh && \
     chmod +x docker-entrypoint.sh && \
     apk add --update ffmpeg aria2 coreutils shadow su-exec curl tini && \
     apk add --update --virtual .build-deps gcc g++ musl-dev && \
-    pip install --no-cache-dir pipenv && \
+    pip install --no-cache-dir pipenv aiohttp_basicauth && \
     pipenv install --system --deploy --clear && \
     pip uninstall pipenv -y && \
     apk del .build-deps && \
